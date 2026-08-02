@@ -1,0 +1,90 @@
+generated: '2026-08-01'
+method: probed
+source: live unauthenticated HTTP probes of https://api.earthoptics.com (Django REST
+  Framework / drf-spectacular)
+docs: null
+scope_note: 'EarthOptics publishes no API documentation. Everything below is observed
+  from the API host''s own unauthenticated responses and response headers. Conventions
+  that could not be observed without credentials are recorded as unknown rather than
+  guessed — in particular there is NO evidence of idempotency support, so no Idempotency
+  pointer is emitted for this provider.'
+stack:
+  server: gunicorn
+  framework: Django REST Framework
+  schema_generator: drf-spectacular
+  evidence: '/api/schema/ responds with content-type application/vnd.oai.openapi and
+    honours ?format=json (application/vnd.oai.openapi+json); /api/docs/ is the Swagger
+    UI route; error bodies match DRF + djangorestframework-simplejwt verbatim.'
+authentication:
+  style: bearer-jwt
+  header: Authorization
+  challenge: 'WWW-Authenticate: Bearer realm="api"'
+  also: Django session cookie (Vary includes Cookie)
+  detail: authentication/earth-optics-authentication.yml
+content_negotiation:
+  style: DRF content negotiation
+  accept_header: honoured — Accept application/json returns JSON, default is YAML-ish
+    renderer on the schema route
+  format_query_param:
+    supported: true
+    param: format
+    observed_values:
+    - json
+    evidence: 'GET /api/schema/?format=json returns content-type application/vnd.oai.openapi+json;
+      an unsupported value (?format=openapi-json) returns 404'
+  vary: Accept, Cookie, Origin
+url_style:
+  trailing_slash: required
+  evidence: DRF APPEND_SLASH routing — every discovered route (/api/schema/, /api/docs/,
+    /admin/) resolves only with a trailing slash
+  prefix: /api/
+error_envelope:
+  format: drf
+  rfc9457: false
+  problem_json: false
+  shape:
+    detail: string — human-readable message
+    code: string — machine code (present on token errors)
+    messages: array of objects — per-token diagnostics (SimpleJWT)
+  catalog: errors/earth-optics-problem-types.yml
+methods:
+  allow_header_advertised: true
+  evidence: 'OPTIONS /api/schema/ returns allow: GET, HEAD, OPTIONS'
+idempotency:
+  supported: unknown
+  documented: false
+  idempotency_key_header: not observed
+  note: No idempotency-key header, parameter, or documentation was found. Write operations
+    could not be probed without credentials. Absence of evidence is recorded as-is
+    — no Idempotency pointer is emitted.
+pagination:
+  style: unknown
+  note: Not observable without credentials and no published documentation. DRF projects
+    commonly use PageNumberPagination or CursorPagination, but that is not evidence.
+rate_limits:
+  signalled: unknown
+  headers_observed: []
+  note: No X-RateLimit-* or RateLimit-* headers appear on unauthenticated responses.
+request_tracing:
+  request_id_header: not observed
+versioning:
+  scheme: unknown
+  observed: 'No version segment appears in any discovered route (/api/schema/, /api/docs/);
+    /api/v1/ and /api/v1/schema/ both 404.'
+  detail: lifecycle/earth-optics-lifecycle.yml
+cors:
+  vary_origin: true
+  note: 'Responses vary on Origin, indicating django-cors-headers is configured; the
+    allowed origin set is presumably limited to app.earthoptics.com.'
+security_headers:
+  x_frame_options: DENY
+  x_content_type_options: nosniff
+  referrer_policy: same-origin
+  cross_origin_opener_policy: same-origin
+  strict_transport_security: absent
+  detail: security/earth-optics-domain-security.yml
+cross_links:
+  authentication: authentication/earth-optics-authentication.yml
+  errors: errors/earth-optics-problem-types.yml
+  lifecycle: lifecycle/earth-optics-lifecycle.yml
+  well_known: well-known/earth-optics-well-known.yml

@@ -1,0 +1,60 @@
+generated: '2026-08-01'
+method: probed
+source: live unauthenticated HTTP probes of https://api.earthoptics.com
+format: drf
+rfc9457: false
+media_type: application/json
+scope_note: 'EarthOptics publishes no OpenAPI (the drf-spectacular schema at /api/schema/
+  is Bearer-gated) and no error reference. This catalog contains ONLY error responses
+  observed verbatim from the live API against unauthenticated requests. It is deliberately
+  short: authenticated 4xx/5xx classes cannot be enumerated without credentials, and
+  none are invented here.'
+envelope:
+  detail: string — human-readable message (always present)
+  code: string — machine-readable code (present on token errors)
+  messages: array of objects — per-token diagnostics, SimpleJWT only
+problems:
+- status: 401
+  code: not_authenticated
+  title: Authentication credentials were not provided
+  body: '{"detail": "Authentication credentials were not provided."}'
+  www_authenticate: Bearer realm="api"
+  remediation: Present a valid JWT access token in the Authorization header.
+  observed_at: https://api.earthoptics.com/api/schema/
+  method: GET
+- status: 401
+  code: token_not_valid
+  title: Given token not valid for any token type
+  body: '{"detail": "Given token not valid for any token type", "code": "token_not_valid",
+    "messages": [{"token_class": "AccessToken", "token_type": "access", "message":
+    "Token is invalid or expired"}]}'
+  remediation: Refresh the access token; the messages[] array names the failing token_class
+    and token_type.
+  observed_at: https://api.earthoptics.com/api/schema/
+  method: GET
+  origin: djangorestframework-simplejwt
+- status: 403
+  code: permission_denied
+  title: Permission denied
+  body: 'text/html (16 bytes) — the /api/docs/ Swagger UI route returns an HTML-bodied
+    401/403 rather than a JSON envelope'
+  observed_at: https://api.earthoptics.com/api/docs/
+  method: GET
+  note: HTML-bodied auth failure on the docs route; inconsistent with the JSON envelope
+    used by /api/schema/
+- status: 404
+  code: not_found
+  title: Not Found
+  body: text/html (179 bytes) — Django's default HTML 404 page, NOT a JSON envelope
+  observed_at: https://api.earthoptics.com/api/nope/
+  method: GET
+  note: Unrouted paths fall through to Django's HTML 404 even when Accept is application/json.
+    Only paths that reach a DRF view return the JSON envelope.
+observed_gaps:
+- No RFC 9457 application/problem+json anywhere on the API.
+- Unrouted 404s return HTML regardless of the Accept header, so a client cannot rely
+  on a JSON error body for every failure.
+- No published error-code reference; codes above are the only ones observable anonymously.
+cross_links:
+  conventions: conventions/earth-optics-conventions.yml
+  authentication: authentication/earth-optics-authentication.yml

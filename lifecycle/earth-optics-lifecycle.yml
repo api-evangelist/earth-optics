@@ -1,0 +1,52 @@
+generated: '2026-08-01'
+method: probed
+source: live probes of earthoptics.com + api.earthoptics.com; search of the EarthOptics
+  site
+summary: 'EarthOptics operates its API as a private backend for its own applications
+  and publishes no lifecycle commitments of any kind — no versioning policy, no deprecation
+  policy, no Sunset/Deprecation header support that could be observed, no SLA, no status
+  page, and no changelog. Every field below is a recorded negative. No StatusPage,
+  Deprecation, or ChangeLog pointer is emitted, because none is earned.'
+versioning:
+  scheme: none-observed
+  current: null
+  docs: null
+  evidence: 'The only routed API prefix is /api/ with no version segment; /api/v1/
+    and /api/v1/schema/ both return 404. Versioning cannot be confirmed without credentials.'
+deprecation:
+  policy_url: null
+  sunset_header: not-observed
+  deprecation_header: not-observed
+  rfc8594: false
+sla:
+  url: null
+  uptime_target: null
+status_page:
+  url: null
+  probed:
+  - url: https://status.earthoptics.com/
+    result: does not resolve
+  - url: https://earthoptics.com/status
+    http_status: 404
+  third_party_searched:
+  - statuspage.io
+  - status.io
+  - instatus
+  result: none found
+changelog:
+  url: null
+  probed:
+  - url: https://earthoptics.com/changelog
+    http_status: 404
+  result: none found
+  note: 'The company publishes dated press releases and articles at https://earthoptics.com/news-insights,
+    but that is a marketing blog, not a product or API changelog.'
+roadmap:
+  url: null
+  result: none found
+deprecated_operations: []
+corporate_lifecycle:
+  note: EarthOptics merged with soil-biology company Pattern Ag; patternag.com no longer
+    resolves, and the combined offering is presented under the EarthOptics brand.
+  headquarters: Minneapolis, Minnesota, United States
+  milestone: 'Announced surpassing five million acres mapped (2025-07-31): https://earthoptics.com/news-insights/earthopticstm-surpasses-5-million-acres-mapped-solidifies-position-as-global-leader-in-soil-measurement'

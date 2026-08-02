@@ -1,0 +1,100 @@
+generated: '2026-08-01'
+method: probed
+source: live probes of api.earthoptics.com + earthoptics.com; search of the EarthOptics
+  site for compliance claims
+summary: 'EarthOptics makes no published conformance or compliance claim. It holds
+  no advertised certifications (no trust center, no SOC 2 / ISO 27001 / GDPR page)
+  and its private API implements none of the cross-cutting HTTP or identity standards
+  this catalog tracks, beyond RFC 6750 Bearer tokens and a technically-present but
+  template-default RFC 9116 security.txt. No Compliance pointer is emitted.'
+standards:
+- id: openapi
+  conforms: partial
+  evidence: 'api.earthoptics.com/api/schema/ serves content-type application/vnd.oai.openapi
+    (drf-spectacular), so an OpenAPI document exists — but it returns HTTP 401 and
+    is not publicly retrievable.'
+  public: false
+- id: oauth2
+  conforms: false
+  evidence: No oauth2 flows; /.well-known/oauth-authorization-server returns 404 on
+    every host.
+- id: oidc
+  conforms: false
+  evidence: /.well-known/openid-configuration returns 404 on every host.
+- id: rfc6750-bearer
+  conforms: true
+  evidence: 'Responds with WWW-Authenticate: Bearer realm="api" on unauthenticated
+    requests.'
+- id: rfc7519-jwt
+  conforms: true
+  evidence: Invalid-token response reports token_class AccessToken / token_type access
+    (djangorestframework-simplejwt).
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: Errors use the Django REST Framework {detail, code, messages} envelope;
+    no application/problem+json anywhere.
+- id: rfc9116-security-txt
+  conforms: partial
+  evidence: /.well-known/security.txt returns 200 text/plain and is syntactically valid,
+    but Contact is the template placeholder user@example.com and every advertised URL
+    404s.
+- id: rfc8594-sunset-header
+  conforms: false
+  evidence: No Sunset or Deprecation headers observed; no deprecation policy published.
+- id: rfc6797-hsts
+  conforms: false
+  evidence: No Strict-Transport-Security header on earthoptics.com, app.earthoptics.com,
+    or api.earthoptics.com.
+- id: dnssec
+  conforms: false
+  evidence: earthoptics.com is not DNSSEC-signed.
+- id: caa
+  conforms: false
+  evidence: No CAA records on earthoptics.com.
+- id: dmarc
+  conforms: partial
+  evidence: DMARC record present with policy p=none (monitor only, no enforcement).
+- id: spf
+  conforms: true
+  evidence: SPF record present on earthoptics.com.
+- id: json-api
+  conforms: false
+- id: odata
+  conforms: false
+- id: scim
+  conforms: false
+- id: asyncapi
+  conforms: false
+  evidence: No event, streaming, or webhook surface is published.
+- id: mcp
+  conforms: false
+  evidence: No MCP server; mcp.earthoptics.com does not resolve.
+- id: a2a
+  conforms: false
+  evidence: /.well-known/agent-card.json and /.well-known/agent.json return 404 on
+    earthoptics.com and api.earthoptics.com; app.earthoptics.com answers 200 for every
+    path (SPA catch-all) and is a false positive.
+certifications: []
+compliance_program:
+  published: false
+  probed:
+  - url: https://trust.earthoptics.com/
+    result: does not resolve
+  - url: https://security.earthoptics.com/
+    result: does not resolve
+  - url: https://earthoptics.com/security
+    http_status: 404
+  - url: https://earthoptics.com/compliance
+    http_status: 404
+  - url: https://earthoptics.com/trust
+    http_status: 404
+  - url: https://earthoptics.com/soc2
+    http_status: 404
+domain_specific:
+  note: 'EarthOptics sells into agricultural carbon markets and the US 45Z Clean Fuel
+    Production Credit. It markets measurement and documentation used in third-party
+    carbon verification, but publishes no machine-readable conformance to any carbon
+    registry or MRV standard (e.g. Verra VM0042, Climate Action Reserve, ISO 14064).'
+  pages:
+  - https://earthoptics.com/carbon-planning/carbon-credit-planning
+  - https://earthoptics.com/agronomic-planning/45z-program

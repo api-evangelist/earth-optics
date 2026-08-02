@@ -1,0 +1,76 @@
+generated: '2026-08-01'
+method: probed
+source: live unauthenticated HTTP probes of https://api.earthoptics.com
+docs: null
+docs_note: EarthOptics publishes no public authentication documentation; this profile
+  is observed from the API's own unauthenticated challenge responses, not from a spec
+  or a docs page.
+summary:
+  types:
+  - http
+  api_key_in: []
+  oauth2_flows: []
+  bearer_format: JWT
+  public_self_serve: false
+  gated: true
+schemes:
+- name: bearerAuth
+  type: http
+  scheme: bearer
+  bearerFormat: JWT
+  realm: api
+  in: header
+  header: Authorization
+  sources:
+  - probe:https://api.earthoptics.com/api/schema/
+  evidence:
+    challenge_header: 'www-authenticate: Bearer realm="api"'
+    http_status: 401
+    unauthenticated_body: '{"detail": "Authentication credentials were not provided."}'
+    invalid_token_body: '{"detail": "Given token not valid for any token type", "code":
+      "token_not_valid", "messages": [{"token_class": "AccessToken", "token_type":
+      "access", "message": "Token is invalid or expired"}]}'
+    inference: 'The invalid-token response is the verbatim djangorestframework-simplejwt
+      error shape, confirming JWT access/refresh tokens issued by Django REST Framework
+      SimpleJWT. Token class "AccessToken" and token type "access" are reported by
+      the server itself.'
+- name: sessionAuth
+  type: apiKey
+  in: cookie
+  name: sessionid
+  sources:
+  - probe:https://api.earthoptics.com/api/schema/
+  evidence:
+    challenge_header: 'vary: Accept, Cookie, Origin'
+    inference: The Vary header includes Cookie, indicating Django session authentication
+      is also enabled alongside Bearer — the pattern used by the app.earthoptics.com
+      browser client.
+    confidence: medium
+oauth2: false
+openid_connect: false
+mutual_tls: false
+api_keys: false
+token_endpoint:
+  discovered: false
+  probed:
+  - path: /api/token/
+    status: 404
+  - path: /api/token/refresh/
+    status: 404
+  - path: /api/token/verify/
+    status: 404
+  - path: /api/auth/login/
+    status: 404
+  note: The SimpleJWT token endpoints are not mounted at any conventional public path;
+    credential exchange presumably happens on an internal route used by the SPA.
+discovery:
+  openid_configuration: 404
+  oauth_authorization_server: 404
+  oauth_protected_resource: 404
+access:
+  self_serve_signup: false
+  developer_portal: false
+  documented: false
+  note: 'API access is available only to EarthOptics customers through the 360 PRO
+    application at app.earthoptics.com; there is no public API program, key issuance
+    flow, or published credential lifecycle.'

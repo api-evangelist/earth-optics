@@ -1,0 +1,83 @@
+generated: '2026-08-01'
+method: probed
+source: live GET of /.well-known/* on every EarthOptics host in apis.yml
+summary: 'Of the three EarthOptics hosts, only the marketing site (earthoptics.com)
+  serves anything under /.well-known/ — a single RFC 9116 security.txt that is unmodified
+  Craft CMS scaffolding (placeholder Contact, all advertised URLs 404). The API host
+  api.earthoptics.com returns a genuine 404 for every /.well-known/ path. The application
+  host app.earthoptics.com is a single-page app whose catch-all answers HTTP 200 with
+  the same HTML shell for EVERY path, including invented ones — those 200s are false
+  positives and are recorded as such, not as discovery documents.'
+hosts:
+- host: https://earthoptics.com
+  role: marketing site
+  catch_all: false
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    content_type: text/plain; charset=utf-8
+    file: earth-optics-security.txt
+    note: RFC 9116; template default values — see security/earth-optics-vulnerability-disclosure.yml
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /llms.txt
+    status: 404
+  - path: /robots.txt
+    status: 200
+    note: 'sitemap: https://earthoptics.com/sitemaps-1-sitemap.xml; no AI/bot directives'
+- host: https://api.earthoptics.com
+  role: API host (gunicorn / Django REST Framework)
+  catch_all: false
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: https://app.earthoptics.com
+  role: customer web application (360 PRO dashboard, SPA)
+  catch_all: true
+  catch_all_evidence: 'GET /.well-known/thisdoesnotexist-12345 returns HTTP 200 with
+    the same <!DOCTYPE html> SPA shell as every other path'
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    verdict: false-positive
+    note: HTML SPA shell, not text/plain security.txt
+  - path: /.well-known/agent-card.json
+    status: 200
+    verdict: false-positive
+    note: HTML SPA shell, not an AgentCard
+  - path: /.well-known/agent.json
+    status: 200
+    verdict: false-positive
+  - path: /.well-known/openid-configuration
+    status: 200
+    verdict: false-positive
+  - path: /llms.txt
+    status: 200
+    verdict: false-positive
+oauth_discovery: none
+api_catalog: none
+agent_card: none

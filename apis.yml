@@ -1,23 +1,130 @@
 aid: earth-optics
-name: Earth Optics
-description: 'Earth Optics is a company surfaced via the API Evangelist harvest backlog (source: secondary-market)
-  and added to the network as a stub for full-pipeline profiling.'
+name: EarthOptics
+description: 'EarthOptics is a soil data measurement and mapping company headquartered
+  in Minneapolis, Minnesota. It combines proprietary in-field proximal sensing hardware,
+  robotics, genomics and laboratory testing with machine learning models to produce
+  high-resolution sub-field maps of soil compaction, fertility and nutrients, soil
+  biology, moisture and soil organic carbon from far fewer physical samples than conventional
+  soil testing. The company sells measurement and analytics, agronomic planning (crop
+  planning, nutrient management, sub-field scripting) and carbon planning (carbon credit
+  planning, sustainability-as-a-service, 45Z clean-fuel documentation) to farmers,
+  agronomists and consultants, ranchers and landowners, seed suppliers, ag retail,
+  carbon project developers and corporate sustainability teams. Results are delivered
+  through the 360 PRO customer dashboard at app.earthoptics.com and through a dealer
+  network. EarthOptics merged with soil-biology company Pattern Ag and reports having
+  mapped more than five million acres. It operates a customer-facing web application
+  backed by a private REST API, but publishes no public developer program, API documentation
+  or SDKs.'
 url: https://raw.githubusercontent.com/api-evangelist/earth-optics/refs/heads/main/apis.yml
+image: https://s3.us-east-1.amazonaws.com/assets.earthoptics.com/user-photos/_1200x630_crop_center-center_82_none/seo-global.jpg
 x-type: company
 x-source: harvest:secondary-market
-x-tier: stub
-x-tier-reason: harvest
+x-tier: profiled
+x-tier-reason: enrichment-pipeline
 specificationVersion: '0.20'
 created: '2026-08-01'
 modified: '2026-08-01'
 tags:
 - Company
-apis: []
+- Agriculture
+- AgTech
+- Soil
+- Soil Data
+- Precision Agriculture
+- Soil Carbon
+- Carbon
+- Sustainability
+- Agronomy
+- Geospatial
+- Remote Sensing
+- Soil Health
+- Carbon Credits
+apis:
+- aid: earth-optics-platform-api
+  name: EarthOptics Platform API
+  description: 'Private REST API backing the EarthOptics customer application (360
+    PRO dashboard) at app.earthoptics.com. Served from api.earthoptics.com on gunicorn
+    behind Django REST Framework, with a drf-spectacular OpenAPI schema endpoint at
+    /api/schema/ and a Swagger UI at /api/docs/. Both the schema and the interactive
+    docs require a Bearer token (WWW-Authenticate: Bearer realm="api"), so the machine-readable
+    contract exists but is not publicly retrievable. EarthOptics publishes no public
+    developer portal, API reference, SDKs or self-serve API signup.'
+  humanURL: https://app.earthoptics.com/
+  baseURL: https://api.earthoptics.com
+  tags:
+  - Soil Data
+  - Agriculture
+  - Private API
+  properties:
+  - type: Authentication
+    url: authentication/earth-optics-authentication.yml
+  - type: Conventions
+    url: conventions/earth-optics-conventions.yml
+  - type: Login
+    url: https://app.earthoptics.com/login
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: VulnerabilityDisclosure
+  url: security/earth-optics-vulnerability-disclosure.yml
+- type: DomainSecurity
+  url: security/earth-optics-domain-security.yml
+- type: Authentication
+  url: authentication/earth-optics-authentication.yml
+- type: Conventions
+  url: conventions/earth-optics-conventions.yml
+- type: ErrorCatalog
+  url: errors/earth-optics-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/earth-optics-lifecycle.yml
+- type: Conformance
+  url: conformance/earth-optics-conformance.yml
+- type: Packages
+  url: packages/earth-optics-packages.yml
+- type: WellKnown
+  url: well-known/earth-optics-well-known.yml
+- type: SecurityTxt
+  url: well-known/earth-optics-security.txt
+- type: LLMsTxt
+  url: llms/earth-optics-llms.txt
 - type: Website
+  url: https://earthoptics.com/
+- type: SecondaryMarket
   url: https://forgeglobal.com/earth-optics_stock/
+- type: Blog
+  url: https://earthoptics.com/news-insights
+- type: Support
+  url: https://earthoptics.com/contact-us
+- type: GitHubOrganization
+  url: https://github.com/EarthOptics
+- type: Login
+  url: https://earthoptics.com/customer-login
+- type: TermsOfService
+  url: https://earthoptics.com/eula
+- type: PrivacyPolicy
+  url: https://earthoptics.com/privacy-policy
+- type: LinkedIn
+  url: https://www.linkedin.com/company/earthoptics/
+- type: Twitter
+  url: https://twitter.com/EarthOptics
+- type: Facebook
+  url: https://www.facebook.com/EarthOptics
+- type: Instagram
+  url: https://www.instagram.com/earthoptics/
+- type: Careers
+  url: https://earthoptics.bamboohr.com/jobs/?source=bamboohr
+x-enrichment:
+  date: '2026-08-01'
+  status: enriched
+  artifacts_added: 11
+  pass: local-v1
+  notes: 'Contract discovery HIT a gated machine-readable contract: api.earthoptics.com
+    runs Django REST Framework with a drf-spectacular OpenAPI schema at /api/schema/
+    and Swagger UI at /api/docs/, both HTTP 401 behind Bearer JWT (WWW-Authenticate:
+    Bearer realm="api"). No spec captured — it is not publicly retrievable. No public
+    developer program exists. No agent card (app.earthoptics.com 200s on every path
+    — SPA catch-all false positive, rejected). security.txt is Craft CMS boilerplate
+    with a placeholder contact and four 404 URLs, so no Security pointer was emitted.'
