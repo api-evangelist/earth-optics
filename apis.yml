@@ -16,6 +16,17 @@ description: 'EarthOptics is a soil data measurement and mapping company headqua
   backed by a private REST API, but publishes no public developer program, API documentation
   or SDKs.'
 url: https://raw.githubusercontent.com/api-evangelist/earth-optics/refs/heads/main/apis.yml
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 image: https://s3.us-east-1.amazonaws.com/assets.earthoptics.com/user-photos/_1200x630_crop_center-center_82_none/seo-global.jpg
 x-type: company
 x-source: harvest:secondary-market
