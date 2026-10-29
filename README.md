@@ -64,17 +64,90 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-EarthOptics is a soil data measurement and mapping company headquartered in Minneapolis, Minnesota. It combines proprietary in-field proximal sensing hardware, robotics, genomics and laboratory testing with machine learning to produce high-resolution sub-field maps of soil compaction, fertility and nutrients, soil biology, moisture and soil organic carbon from far fewer physical samples than conventional soil testing. Results are delivered through the 360 PRO customer dashboard and a dealer network. EarthOptics merged with soil-biology company Pattern Ag and reports having mapped more than five million acres.
+EarthOptics is a soil data measurement and mapping company headquartered in Minneapolis, Minnesota. It combines proprietary in-field proximal sensing hardware, robotics, genomics and laboratory testing with machine learning models to produce high-resolution sub-field maps of soil compaction, fertility and nutrients, soil biology, moisture and soil organic carbon from far fewer physical samples than conventional soil testing. The company sells measurement and analytics, agronomic planning (crop planning, nutrient management, sub-field scripting) and carbon planning (carbon credit planning, sustainability-as-a-service, 45Z clean-fuel documentation) to farmers, agronomists and consultants, ranchers and landowners, seed suppliers, ag retail, carbon project developers and corporate sustainability teams. Results are delivered through the 360 PRO customer dashboard at app.earthoptics.com and through a dealer network. EarthOptics merged with soil-biology company Pattern Ag and reports having mapped more than five million acres. It operates a customer-facing web application backed by a private REST API, but publishes no public developer program, API documentation or SDKs.
 
-- Website: https://earthoptics.com/
-- Application: https://app.earthoptics.com/
-- GitHub: https://github.com/EarthOptics
-- Secondary market listing: https://forgeglobal.com/earth-optics_stock/
+**Areas:** Company · Agriculture · AgTech · Soil · Soil Data · Precision Agriculture · Soil Carbon · Carbon · Sustainability · Agronomy · Geospatial · Remote Sensing
 
-## API posture
+## EarthOptics on APIs.io
 
-EarthOptics has **no public API program** — no developer portal, no API reference, no SDKs, and no self-serve API signup.
+Everything profiled for EarthOptics is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/earth-optics/](https://apis.io/providers/earth-optics/)** — or go straight to one of the APIs or properties below.
 
-A private REST API exists at `https://api.earthoptics.com`, backing the 360 PRO application. It runs Django REST Framework behind gunicorn and exposes a drf-spectacular OpenAPI schema at `/api/schema/` and a Swagger UI at `/api/docs/` — both return HTTP 401 behind a Bearer JWT (`WWW-Authenticate: Bearer realm="api"`). The machine-readable contract therefore exists but is not publicly retrievable, so no OpenAPI has been captured here.
+### APIs (1)
 
-Artifacts in this repo record what was probed on 2026-08-01, including the negatives: no GraphQL, no gRPC, no AsyncAPI or webhooks, no MCP server, no A2A agent card, no status page, no changelog, and no compliance/trust center. See `apis.yml` for the full pointer set.
+- [EarthOptics Platform API](https://apis.io/apis/earth-optics/earth-optics-platform-api/) — Private REST API backing the EarthOptics customer application (360 PRO dashboard) at app.earthoptics.com. Served from api.earthoptics.com on gunicorn behind…
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### Security (3)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Earth Optics Authentication](https://apis.io/security/earth-optics/earth-optics-authentication/)
+- [Earth Optics Domain Security](https://apis.io/security/earth-optics/earth-optics-domain-security/)
+- [Earth Optics Vulnerability Disclosure](https://apis.io/security/earth-optics/earth-optics-vulnerability-disclosure/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://earthoptics.com/)
+- [Support](https://earthoptics.com/contact-us)
+- [Blog](https://earthoptics.com/news-insights)
+- [Terms of service](https://earthoptics.com/eula)
+- [Privacy policy](https://earthoptics.com/privacy-policy)
+- [GitHub](https://github.com/EarthOptics)
+
+## API Evangelist rating
+
+**Kin Score 21.0** — emerging · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 73.2 |
+| Contract quality | 0.0 |
+| Contract governance | 18.2 |
+| Operational transparency | 2.6 |
+| Developer ergonomics | 19.0 |
+| Access clarity | 27.6 |
+
+**Agent readiness 5.4** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | — |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | documented (partial credit) |
+| OpenAPI Examples | — |
+| Rate Limit Signal | — |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 24.2** — Health
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/earth-optics/](https://apis.io/providers/earth-optics/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for EarthOptics: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/earth-optics/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
